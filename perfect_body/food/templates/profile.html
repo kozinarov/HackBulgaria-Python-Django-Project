@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	<meta charset="UTF-8">
+	<title>Perfect Body</title>
+	<link rel="stylesheet" type="text/css" href="{% static "css/structure.css" %}">
+</head>
+<header>
+	<div class="header_wrapper">	
+		<div>
+			<img src="{% static "images/logo.png" %}">
+		</div>
+		<div>
+			<img src="{% static "images/logo_text.png" %}">
+		</div>
+		<div>
+			<img src="{% static "images/logo.png" %}">
+		</div>
+	</div>
+</header>
+<body>
+	<div class="wrapper">	
+		<a href="/logout" class="hello">Logout</a>
+		<p class="hello_name">Hello, {{ user.name }} &#9786;</p>
+		<dl class="all">
+			<dt class="title profile">	
+				<h2>Profile</h2>
+			</dt>
+
+			<dd class="main_profile">
+				<form method="POST" action="" name="change_password">
+					{% csrf_token %}
+					<label>
+						Name: 
+						<p>{{ name }}</p>
+						</label>
+					<label>
+						Password: 
+						<input type="password" name="password">
+					</label>		
+					<label>
+						New password:
+						<input type="password" name="new_password">
+					</label>
+					<input type="submit" value="Change Password">
+				</form>
+				
+				<form method="POST" action="" name="change_data">
+					{% csrf_token %}
+					<label>
+						Years:
+						<input type="number" name="years" value="{{ years }}">
+					</label>
+					<label>
+						Weight:
+						<input type="number" name="weight" value="{{ weight }}">
+					</label>
+					<label>
+						Height:
+						<input type="number" name="height" value="{{ height }}">
+					</label>
+					<input type="submit" value="Change Data">
+				</form>
+					<form class="bmi">
+						{% csrf_token %}
+						<p>BMI:</p>
+						<p id="bmi">{{ BMI }}</p>
+						<p>Max calories per day:</p>
+						<p id="cal">{{ max_cal }}</p>
+					</form>
+			</dd>
+
+
+			<dt class="title shop">	
+				<h2>Map</h2>
+			</dt>
+
+			<dd class="main_shop">
+ 				<h2>Search your favorite supermarket</h2>
+ 				<p>(exp: billa near Mladost, Sofia, Bulgaria)</p>
+ 				<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+ 				<div id="map"></div>
+			</dd>
+
+			<dt class="title menu">	
+				<h2>Menu</h2>
+			</dt>
+
+			<dd class="main_menu">
+				<div class="breakfast">
+					<h2>Breakfast</h2>
+					<form method="POST" action="" name="breakfast">
+						{% csrf_token %}
+						{% for field in breakfast_fields %}
+							<div class='fields-container'>
+								<input type="checkbox" name="checks[]" value="{{field}}">
+								{{field}}
+							</div>
+						{% endfor %}
+					<input type="submit" value="Submit", name="Breakfast">
+					</form>
+				</div>
+				<div class="lunch">
+					<h2>Lunch</h2>
+					<form method="POST" action="" name="lunch">
+						{% csrf_token %}
+						{% for field in lunch_fields %}
+							<div class='fields-container'>
+								<input type="checkbox" name="checks[]" value="{{field}}">
+								{{field}}
+							</div>
+						{% endfor %}
+					<input type="submit" value="Submit", name="Lunch">
+					</form>
+				</div>
+				<div class="dinner">
+					<h2>Dinner</h2>
+					<form method="POST" action="" name="dinner">
+						{% csrf_token %}
+						{% for field in dinner_fields %}
+							<div class='fields-container'>
+								<input type="checkbox" name="checks[]" value="{{field}}">
+								{{field}}
+							</div>
+						{% endfor %}
+					<input type="submit" value="Submit", name="Dinner">
+					</form>
+				</div>
+			</dd>
+
+			<dt class="title history">
+				<h2>History</h2>	
+			</dt>
+
+			<dd class="main_history">
+				<table>
+					<tr>
+						<th>Date</th>
+						<th>Foods</th>
+					</tr>
+
+					{% for field in history %}
+						<tr>
+							<th> {{ field.date }}</th>
+							<th> {{ field.foods.name }}</th>
+						</tr>
+					{% endfor%}
+
+				</table>
+
+			</dd>
+		</dl>
+	
+
+		<div class="line">	
+
+		</div>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+	window.oppened_tab = '{{request.GET.tab}}';
+</script>
+<script src="{% static "js/jquery-2.2.0.min.js" %}"></script>
+<script src="{% static "js/main.js" %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=initAutocomplete"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+</html>
